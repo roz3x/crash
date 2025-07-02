@@ -1952,3 +1952,19 @@ exit 0
      }
 
    /* Remember the bfd indexes for the .text, .data, .bss and
+--- gdb-16.2/gdb/solib-svr4.c.orig
++++ gdb-16.2/gdb/solib-svr4.c
+@@ -742,11 +742,13 @@ elf_locate_base (void)
+       return extract_typed_address (pbuf, ptr_type);
+     }
+ 
++#ifndef CRASH_MERGE
+   /* Find DT_DEBUG.  */
+   if (gdb_bfd_scan_elf_dyntag (DT_DEBUG, current_program_space->exec_bfd (),
+ 			       &dyn_ptr, NULL)
+       || scan_dyntag_auxv (DT_DEBUG, &dyn_ptr, NULL))
+     return dyn_ptr;
++#endif
+ 
+   /* This may be a static executable.  Look for the symbol
+      conventionally named _r_debug, as a last resort.  */
